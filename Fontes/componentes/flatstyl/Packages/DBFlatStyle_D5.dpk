@@ -1,0 +1,45 @@
+package DBFlatStyle_D5;
+
+{$R *.RES}
+{$ALIGN ON}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST ON}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $00400000}
+{$DESCRIPTION 'DBFlatStyle'}
+{$IMPLICITBUILD OFF}
+
+requires
+  vcl40,
+  FlatStyle_D5,
+  VCLDB40;
+
+contains
+  DBFlatEdit in '..\Source\DBFlatEdit.pas',
+  DBFlatCheckBox in '..\Source\DBFlatCheckBox.pas',
+  DBFlatRadioButton in '..\Source\DBFlatRadioButton.pas',
+  DBFlatMaskEdit in '..\Source\DBFlatMaskEdit.pas',
+  BDFlatMemo in '..\Source\BDFlatMemo.pas',
+  DBFlatSpinEditInteger in '..\Source\DBFlatSpinEditInteger.pas',
+  DBFlatSpinEditFloat in '..\Source\DBFlatSpinEditFloat.pas',
+  DBFlatComboBox in '..\Source\DBFlatComboBox.pas',
+  DBFlatPanel in '..\Source\DBFlatPanel.pas',
+  Criptografia in '..\Source\Criptografia.pas';
+
+end.

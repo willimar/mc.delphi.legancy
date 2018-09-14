@@ -1,0 +1,29 @@
+#------------------------------------------------------------------------------
+VERSION = BWS.01
+#------------------------------------------------------------------------------
+!ifndef ROOT
+ROOT = $(MAKEDIR)\..
+!endif
+#------------------------------------------------------------------------------
+MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
+DCC = $(ROOT)\bin\dcc32.exe $**
+BRCC = $(ROOT)\bin\brcc32.exe $**
+#------------------------------------------------------------------------------
+PROJECTS = MCLocadora.exe Chave.exe Project1.exe Install.exe
+#------------------------------------------------------------------------------
+default: $(PROJECTS)
+#------------------------------------------------------------------------------
+
+MCLocadora.exe: MCLocadora\MCLocadora.dpr
+  $(DCC)
+
+Chave.exe: Utilitários\chave\Chave.dpr
+  $(DCC)
+
+Project1.exe: Utilitários\Criptografia\Project1.dpr
+  $(DCC)
+
+Install.exe: Instalação\Install.dpr
+  $(DCC)
+
+

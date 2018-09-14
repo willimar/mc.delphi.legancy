@@ -1,0 +1,7 @@
+********************************************************************************************************************
+GERAL
+********************************************************************************************************************
+VERIFICAR A EXCLUSÃO PARA TODOS OS FORMULÁRIOS, POIS NÃO ESTÁ FUNCIONANDO LEGAL
+TERMINAR TAMBÉM OS TESTES
+
+FILME NÃO EXCLUI, POIS TEM ANTES DE EXCLUIR AS FITAS ... PELO NIVEL DE USO EVITAR EXCLUIR E SIM DESATIVAR

@@ -1,0 +1,127 @@
+Delphi 7 Build 7.0.4.453 ===================
+
+Added "C:\Users\willi\source\repos\mc.delphi.legacy\Fontes\componentes\jcl\lib\D7;C:\Users\willi\source\repos\mc.delphi.legacy\Fontes\componentes\jcl\source" to library path.
+
+Added "C:\Users\willi\source\repos\mc.delphi.legacy\Fontes\componentes\jcl\source\common;C:\Users\willi\source\repos\mc.delphi.legacy\Fontes\componentes\jcl\source\windows;C:\Users\willi\source\repos\mc.delphi.legacy\Fontes\componentes\jcl\source\vcl;C:\Users\willi\source\repos\mc.delphi.legacy\Fontes\componentes\jcl\source\visclx;" to library browsing path.
+
+Added "C:\Users\willi\source\repos\mc.delphi.legacy\Fontes\componentes\jcl\lib\D7\debug" to Debug DCU Path.
+
+Making common library units for Delphi 7
+
+Compiling .dcu files...
+Borland Delphi Version 15.0
+Copyright (c) 1983,2002 Borland Software Corporation
+183546 lines, 3.38 seconds, 787 bytes code, 68 bytes data.
+
+Making windows library units for Delphi 7
+
+Compiling .dcu files...
+Borland Delphi Version 15.0
+Copyright (c) 1983,2002 Borland Software Corporation
+192708 lines, 2.42 seconds, 47501 bytes code, 16736 bytes data.
+
+Making vcl library units for Delphi 7
+
+Compiling .dcu files...
+Borland Delphi Version 15.0
+Copyright (c) 1983,2002 Borland Software Corporation
+JclPrint.pas(649) Warning: Symbol 'GetBinSourceList' is deprecated
+JclPrint.pas(653) Warning: Symbol 'GetBinSourceList' is deprecated
+JclPrint.pas(660) Warning: Symbol 'GetBinSourceList' is deprecated
+JclPrint.pas(697) Warning: Symbol 'GetPaperList' is deprecated
+JclPrint.pas(701) Warning: Symbol 'GetPaperList' is deprecated
+JclPrint.pas(708) Warning: Symbol 'GetPaperList' is deprecated
+18103 lines, 0.44 seconds, 8656 bytes code, 8 bytes data.
+
+Making visclx library units for Delphi 7
+
+Compiling .dcu files...
+Borland Delphi Version 15.0
+Copyright (c) 1983,2002 Borland Software Corporation
+10837 lines, 0.52 seconds, 11261 bytes code, 52 bytes data.
+
+Making common library debug units for Delphi 7
+
+Compiling .dcu files...
+Borland Delphi Version 15.0
+Copyright (c) 1983,2002 Borland Software Corporation
+183546 lines, 1.69 seconds, 913 bytes code, 68 bytes data.
+
+Making windows library debug units for Delphi 7
+
+Compiling .dcu files...
+Borland Delphi Version 15.0
+Copyright (c) 1983,2002 Borland Software Corporation
+192708 lines, 1.44 seconds, 47637 bytes code, 16736 bytes data.
+
+Making vcl library debug units for Delphi 7
+
+Compiling .dcu files...
+Borland Delphi Version 15.0
+Copyright (c) 1983,2002 Borland Software Corporation
+JclPrint.pas(649) Warning: Symbol 'GetBinSourceList' is deprecated
+JclPrint.pas(653) Warning: Symbol 'GetBinSourceList' is deprecated
+JclPrint.pas(660) Warning: Symbol 'GetBinSourceList' is deprecated
+JclPrint.pas(697) Warning: Symbol 'GetPaperList' is deprecated
+JclPrint.pas(701) Warning: Symbol 'GetPaperList' is deprecated
+JclPrint.pas(708) Warning: Symbol 'GetPaperList' is deprecated
+18103 lines, 0.34 seconds, 10705 bytes code, 8 bytes data.
+
+Making visclx library debug units for Delphi 7
+
+Compiling .dcu files...
+Borland Delphi Version 15.0
+Copyright (c) 1983,2002 Borland Software Corporation
+10837 lines, 0.25 seconds, 16564 bytes code, 52 bytes data.
+
+Installing package C:\Users\willi\source\repos\mc.delphi.legacy\Fontes\componentes\jcl\packages\d7\DJcl.dpk...
+Borland Delphi Version 15.0
+Copyright (c) 1983,2002 Borland Software Corporation
+94 lines, 0.34 seconds, 610276 bytes code, 39721 bytes data.
+...done.
+
+Installing package C:\Users\willi\source\repos\mc.delphi.legacy\Fontes\componentes\jcl\packages\d7\DJclVClx.dpk...
+Borland Delphi Version 15.0
+Copyright (c) 1983,2002 Borland Software Corporation
+41 lines, 0.16 seconds, 25032 bytes code, 585 bytes data.
+...done.
+
+Installing package C:\Users\willi\source\repos\mc.delphi.legacy\Fontes\componentes\jcl\packages\d7\DJclVcl.dpk...
+Borland Delphi Version 15.0
+Copyright (c) 1983,2002 Borland Software Corporation
+43 lines, 0.14 seconds, 70008 bytes code, 897 bytes data.
+...done.
+
+Installing package C:\Users\willi\source\repos\mc.delphi.legacy\Fontes\componentes\jcl\examples\vcl\debugextension\JclDebugIde70.dpk...
+Borland Delphi Version 15.0
+Copyright (c) 1983,2002 Borland Software Corporation
+3883 lines, 0.42 seconds, 15784 bytes code, 157 bytes data.
+...done.
+
+Installing package C:\Users\willi\source\repos\mc.delphi.legacy\Fontes\componentes\jcl\examples\vcl\projectanalyzer\ProjectAnalyzer70.dpk...
+Borland Delphi Version 15.0
+Copyright (c) 1983,2002 Borland Software Corporation
+3801 lines, 0.16 seconds, 17892 bytes code, 157 bytes data.
+...done.
+
+Installing package C:\Users\willi\source\repos\mc.delphi.legacy\Fontes\componentes\jcl\examples\vcl\idefavopendialogs\IdeOpenDlgFavorite70.dpk...
+Borland Delphi Version 15.0
+Copyright (c) 1983,2002 Borland Software Corporation
+4814 lines, 0.14 seconds, 10156 bytes code, 169 bytes data.
+...done.
+
+Installing Exception Dialog...
+-> C:\USERS\WILLI\SOURCE\REPOS\MC.DELPHI.LEGACY\FONTES\COMPONENTES\JCL\EXAMPLES\VCL\DEBUGEXTENSION\DIALOG\EXCEPTDLG.PAS
+-> C:\USERS\WILLI\SOURCE\REPOS\MC.DELPHI.LEGACY\FONTES\COMPONENTES\JCL\EXAMPLES\VCL\DEBUGEXTENSION\DIALOG\EXCEPTDLG.ico
+...done.
+
+Installing Exception Dialog with Send...
+-> C:\USERS\WILLI\SOURCE\REPOS\MC.DELPHI.LEGACY\FONTES\COMPONENTES\JCL\EXAMPLES\VCL\DEBUGEXTENSION\DIALOG\EXCEPTDLGMAIL.PAS
+-> C:\USERS\WILLI\SOURCE\REPOS\MC.DELPHI.LEGACY\FONTES\COMPONENTES\JCL\EXAMPLES\VCL\DEBUGEXTENSION\DIALOG\EXCEPTDLGMAIL.ico
+...done.
+
+Installing CLX Exception Dialog...
+-> C:\USERS\WILLI\SOURCE\REPOS\MC.DELPHI.LEGACY\FONTES\COMPONENTES\JCL\EXAMPLES\VCL\DEBUGEXTENSION\DIALOG\CLXEXCEPTDLG.PAS
+-> C:\USERS\WILLI\SOURCE\REPOS\MC.DELPHI.LEGACY\FONTES\COMPONENTES\JCL\EXAMPLES\VCL\DEBUGEXTENSION\DIALOG\CLXEXCEPTDLG.ico
+...done.
+

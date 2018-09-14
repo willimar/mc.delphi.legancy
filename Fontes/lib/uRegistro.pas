@@ -1,0 +1,312 @@
+{
+O CODIGO DO SISTEMA VAI GARANTIR QUE A CHAVE SEJA UNICA
+O NUMERO DO HD VAI GARANTIR QUE SOMENTE HAVERÁ UM SOFTWARE PARA UM REGISTRO
+A CHAVE DEVE SER ELABORADA COM AS SEGUINTES INFLUENCIAS
+1º CODIGO DO SISTEMA
+2º NOME DA LOCADORA
+3º CGC
+}
+unit uRegistro;
+
+
+
+interface
+
+  uses SysUtils, Math, IniFiles, DateUtils, ZQueryMC, Classes;
+
+  type
+    TRegistro = set of (rtNone, rtDemo, rtLicenca, rtExpirado);
+
+
+  function Registro(Empresa, CGC, Codigo : String): string;
+  function RegistroValido(ini: TIniFile): boolean;
+  function TipoRegistro(Chave: String): TRegistro;
+  procedure CarregarChave;
+  function Instala: boolean;
+  function IniRegistroValido(MemoryStream: TMemoryStream): boolean;
+  function PegarValorIni(REG: String; MemoryStream: TMemoryStream): string;
+  function ValidarCadastro: boolean;
+
+const
+  MCLOCADORA   = 'MCLOCADORA';
+  EMPRESA      = 'EMPRESA';
+  CNPJ         = 'CNPJ';
+  QTDESTACOES  = 'QTDESTACOES';
+  SERIAL       = 'SERIAL';
+  DATALICENCA  = 'DATALICENCA';
+  DATAVALIDADE = 'DATAVALIDADE';
+  VERSAO       = 'VERSAO';
+
+implementation
+
+uses uToolFunc, uDM, uDBFunc;
+
+function Normaliza(Caracter : String) : String;
+begin
+  //manter os caracteres fora do 0 - 47  58 - 64  91 - 255
+  if StrToInt(Caracter) < 0 then
+    Caracter := IntToStr(StrToInt(Caracter) * -1);
+  Result := Caracter;
+  if (StrToInt(Caracter) >= 0) and (StrToInt(Caracter) <= 47) then
+  begin
+    result := '48';
+  end;
+
+  if (StrToInt(Caracter) >= 58) and (StrToInt(Caracter) <= 64) then
+  begin
+    if (StrToInt(Caracter) < 61) then
+      result := '57'
+    else
+      result := '65';
+  end;
+
+  if (StrToInt(Caracter) >= 91) and (StrToInt(Caracter) <= 255) then
+  begin
+    result := '90';
+  end;
+end;
+
+procedure Finaliza(var Valor : Array of String; Caracter : String; i : Word);
+var
+  ControleA,ControleB,ControleC : String;
+begin
+  if StrToInt(Caracter) = 0 then
+  begin
+    Caracter := '2';
+  end;
+  while length(Caracter) <= 2 do
+  begin
+    Caracter := IntToStr(StrToInt(Caracter) * 2);
+    Valor[i] := Caracter;
+  end;
+  if length(Caracter) > 2 then
+  begin
+    if (length(Caracter) >= 3) and (length(Caracter) <= 4) then
+    begin
+      if length(Caracter) = 3 then
+         Caracter := Caracter + '0';
+      Valor[i] := CHR(StrToInt(Normaliza(Copy(Caracter, 1, 2))));
+      ControleA := Copy(Caracter, 1, 2);
+      Valor[i] := Valor[i] + CHR(StrToInt(Normaliza(Copy(Caracter, 3, 2))));
+      ControleB := Copy(Caracter, 3, 2);
+      Valor[i] := Valor[i] + CHR(StrToInt(Normaliza(IntToStr(StrToInt(ControleA) + StrToInt(ControleB)))));
+      Valor[i] := Valor[i] + CHR(StrToInt(Normaliza(IntToStr(StrToInt(ControleB) - StrToInt(ControleA)))));;
+    end;
+    if (length(Caracter) >= 5) and (length(Caracter) <= 6) then
+    begin
+      Valor[i] := CHR(StrToInt(Normaliza(Copy(Caracter, 1, 2))));
+      ControleA := Copy(Caracter, 1, 2);
+      Valor[i] := Valor[i] + CHR(StrToInt(Normaliza(Copy(Caracter, 3, 2))));
+      ControleB := Copy(Caracter, 3, 2);
+      Valor[i] := Valor[i] + CHR(StrToInt(Normaliza(Copy(Caracter, 5, 2))));
+      ControleC := Copy(Caracter, 5, 2);
+      Valor[i] := Valor[i] + CHR(StrToInt(Normaliza(IntToStr(StrToInt(ControleB) + StrToInt(ControleA) + StrToInt(ControleC)))));;
+    end;
+    if (length(Caracter) >= 7) then
+    begin
+      Valor[i] := CHR(StrToInt(Normaliza(Copy(Caracter, 1, 2))));
+      Valor[i] := Valor[i] + CHR(StrToInt(Normaliza(Copy(Caracter, 3, 2))));
+      Valor[i] := Valor[i] + CHR(StrToInt(Normaliza(Copy(Caracter, 5, 2))));
+      Valor[i] := Valor[i] + CHR(StrToInt(Normaliza(Copy(Caracter, 7, 2))));
+    end;
+  end;
+end;
+
+function Registro(Empresa, CGC, Codigo : String): string;
+var
+  aValor : array [1 .. 4] of string;
+  Chave: string;
+  i : integer;
+  nValor1, nValor2, nValor3, nValor4: Int64;
+begin
+  //INICIALIZANDO AS VARIAVEIS
+  nvalor1 := 0;
+  nvalor2 := 0;
+  nvalor3 := 0;
+  nvalor4 := 0;
+  Codigo := Codigo + IntToStr(StrToInt(Codigo)*3);
+
+  //O VALOR DE CADA PONTO DA CHAVE SERÁ O ORD DOS VALORES SENDO O QUATRO
+  //A SOMA DOS 3 PRIMEIROS VALORES
+  for i := 1 to pred(Length(Empresa)) do
+  begin
+    nValor1 := nValor1 + Ord(Empresa[i]);
+  end;
+  for i := 1 to pred(length(CGC)) do
+  begin
+    nValor2 := nValor2 + Ord(CGC[i]);
+  end;
+  for i := 1 to pred(length(Codigo)) do
+  begin
+    nValor3 := nValor3 + ord(Codigo[i]);
+  end;
+  nvalor1 := nvalor1 * StrToInt(Codigo);
+  nvalor2 := nvalor2 * StrToInt(Codigo);
+  nvalor3 := (nvalor3 * StrToInt(Codigo)) * 2;
+  nvalor4 := (nvalor1 + nvalor2 + nvalor3) * StrToInt(Codigo);
+
+  //FINALIZANDO CHAVE
+  aValor[1] := Copy(IntToStr(nvalor1),1,4);
+  aValor[2] := Copy(IntToStr(nvalor2),1,4);
+  aValor[3] := Copy(IntToStr(nvalor3),1,4);
+  aValor[4] := Copy(IntToStr(nvalor4),1,4);
+
+  Chave := aValor[1] + (aValor[2]) + (aValor[3]) + (aValor[4]);
+  Result := Chave;
+end;
+
+function RegistroValido(ini: TIniFile): boolean;
+var
+  vEMPRESA     ,
+  vCNPJ        ,
+  vQTDESTACOES ,
+  vSERIAL      ,
+  vDATALICENCA ,
+  vDATAVALIDADE,
+  vVERSAO      :String;
+begin
+  vEMPRESA := Descriptografar(ini.ReadString(Criptografar(MCLOCADORA), Criptografar(EMPRESA), ''));
+  vCNPJ := Descriptografar(ini.ReadString(Criptografar(MCLOCADORA), Criptografar(CNPJ), ''));
+  vQTDESTACOES := Descriptografar(ini.ReadString(Criptografar(MCLOCADORA), Criptografar(QTDESTACOES), ''));
+  vSERIAL := Descriptografar(ini.ReadString(Criptografar(MCLOCADORA), Criptografar(SERIAL), ''));
+  vDATALICENCA := Descriptografar(ini.ReadString(Criptografar(MCLOCADORA), Criptografar(DATALICENCA), ''));
+  vDATAVALIDADE := Descriptografar(ini.ReadString(Criptografar(MCLOCADORA), Criptografar(DATAVALIDADE), ''));
+  vVERSAO := Descriptografar(ini.ReadString(Criptografar(MCLOCADORA), Criptografar(VERSAO), ''));
+
+  Result := true;
+
+  if vEMPRESA <> DM.SisControl.Empresa.Empresa then
+    Result := false
+  else if vCNPJ <> DM.SisControl.Empresa.CNPJ then
+    Result := false
+  else if vSERIAL <> Substituir('-', '', DM.SisControl.Empresa.Serial.NumeroSerial) then
+    Result := false
+  else if StrToDate(vDATAVALIDADE) < Date then
+    Result := false
+  else if vVERSAO <> DM.SisControl.Versao then
+    Result := false;
+
+  //Result := true;
+end;
+
+function TipoRegistro(Chave: String): TRegistro;
+var
+  SubChave: String;
+begin
+  (*neste cara aqui vou ter de abrir o ini no banco salvar para arquivo.
+  Depois valido na seguinte ordem
+  Demo
+  registrado
+  expirado
+  if o ini não existir ou se ele for inválido então o resultado é none ... sem registro
+
+  toda a vez que o sistema abrir deverá gravar na chave que está em uso a data e a hora
+  para evitar massetes o sistem jamais deverá abri com data e hora menor que a gravada
+  deverá gravar também a data e a hora a cada 30 minutos este campo como null deverá ser pedido
+  uma nova chave de registro, esta chave de registro somente poderá ser adcionada ao sistema com
+  no máximo 30 dias após ser gerada, caso contrário deverá ser solicitada uma nova chave.*)
+  
+  SubChave := StringReplace(Chave, '-', '', [rfReplaceAll]);
+  if SubChave = '0000000000000000' then begin
+    Result := [rtDemo];
+  end
+  else if SubChave = Registro(DM.SisControl.Empresa.Empresa, DM.SisControl.Empresa.CNPJ, IntToStr(DM.SisControl.FlagGeral)) then begin
+    Result := [rtLicenca];
+    if StrToDate(DM.SisControl.Empresa.Serial.ExpiraEm) < Date then
+      Result := [rtExpirado];
+  end
+  else
+    Result := [rtNone];
+end;
+
+procedure CarregarChave;
+var
+  ini: TIniFile;
+begin
+  if DM.qryEmpresaCHAVE.IsNull or DM.qryEmpresaDATAULTIMOACESSO.IsNull then begin
+    raise Exception.Create('O sistema não tem uma chave de registro válida.'#13'Para usar este software com liceça freeware '+
+      'por favor entre no site fornecedor do sistema e faça o download da chave de liberação.'#13'Caso você tenha adquirido a '+
+      'chave de liberação adcione a mesma pelo cadastro de empresa.'#13'A chave de liberação poderá ser inserida num prazo máximo'+
+      ' de 30 dias após aquisição da mesma.');
+  end;
+
+  if StrToDateTime(Descriptografar(DM.qryEmpresaDATAULTIMOACESSO.AsString)) > (Date + Time) then begin
+    raise Exception.Create('Relogio do sistema operacional está errado, favor acertar para poder proceguir.');
+  end;
+
+  DM.qryEmpresaCHAVE.SaveToFile(path + 'registro.mc');
+  try
+    ini := TIniFile.Create(path + 'registro.mc');
+    DM.SisControl.Empresa.Serial.NumeroSerial := Descriptografar(ini.ReadString(Criptografar(MCLOCADORA), Criptografar(SERIAL), ''));
+    DM.SisControl.Empresa.Serial.ExpiraEm := Descriptografar(ini.ReadString(Criptografar(MCLOCADORA), Criptografar(DATAVALIDADE), ''));
+    DM.SisControl.Empresa.Serial.Registro := TipoRegistro(DM.SisControl.Empresa.Serial.NumeroSerial);
+  finally
+    FreeAndNil(ini);
+  end;
+
+  ExecutarSql('UPDATE TBSERIAL SET DATAULTIMOACESSO=''' + Criptografar(DateTimeToStr(Now)) + ''' WHERE CODEMPRESA=' + IntToStr(DM.SisControl.Empresa.Codigo));
+end;
+
+function Instala: boolean;
+var
+  SemCargaDeChave, RegistroInvalido, RegistroSemClasse: boolean;
+  ini: TIniFile;
+begin
+  try
+    DM.SisControl.SetEmpresa;
+    CarregarChave;
+    SemCargaDeChave := false;
+  except
+    SemCargaDeChave := true;
+  end;
+  ini := TIniFile.Create(path + 'registro.mc');
+  RegistroInvalido := not RegistroValido(ini);
+  RegistroSemClasse := TipoRegistro(DM.SisControl.Empresa.Serial.NumeroSerial) = [rtNone];
+
+  Result := SemCargaDeChave or RegistroInvalido or RegistroSemClasse;
+end;
+
+function IniRegistroValido(MemoryStream: TMemoryStream): boolean;
+var
+  ini: TIniFile;
+begin
+  try
+    result := true;
+    MemoryStream.SaveToFile(path + 'tmp.mc');
+    ini := TIniFile.Create(path + 'tmp.mc');
+    if (IncDay(StrToDate(Descriptografar(ini.ReadString(Criptografar(MCLOCADORA), Criptografar(DATALICENCA), ''))), 30) < Now) or
+       (StrToDate(Descriptografar(ini.ReadString(Criptografar(MCLOCADORA), Criptografar(DATALICENCA), ''))) > Now)  then begin
+      result := false;
+      if TipoRegistro(Descriptografar(ini.ReadString(Criptografar(MCLOCADORA), Criptografar(DATALICENCA), ''))) = [rtDemo] then
+        Result := True;
+      exit;
+    end;
+  finally
+    FreeAndNil(ini);
+    DeleteFile(path + 'tmp.mc')
+  end;
+end;
+
+function PegarValorIni(REG: String; MemoryStream: TMemoryStream): string;
+var
+  ini: TIniFile;
+begin
+  try
+    MemoryStream.SaveToFile(path + 'tmp.mc');
+    ini := TIniFile.Create(path + 'tmp.mc');
+    Result := Descriptografar(ini.ReadString(Criptografar(MCLOCADORA), Criptografar(REG), ''));
+  finally
+    FreeAndNil(ini);
+    DeleteFile(path + 'tmp.mc')
+  end;
+end;
+
+function ValidarCadastro: boolean;
+begin
+  if DM.SisControl.Empresa.Serial.Registro = [rtLicenca] then
+    result := true
+  else
+    result := false;
+end;
+
+end.

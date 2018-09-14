@@ -1,0 +1,137 @@
+unit EditMC;
+
+interface
+
+uses
+  SysUtils, Classes, Controls, StdCtrls, LabelMC, ComCtrls, Graphics, Forms, windows, MCAPI;
+
+type
+  TChecagemType = (ctDefault, ctCPF, ctCNPJ, ctCPFCNPJ);
+  TEditMC = class(TEdit)
+  private
+    FRequerido: boolean;
+    FChecagemType: TChecagemType;
+    FRotulo: TLabelMC;
+    FTabSheet: TTabSheet;
+    FLabel: String;
+    MCAPI: TMCAPI;
+    { Private declarations }
+  protected
+    { Protected declarations }
+  public
+    { Public declarations }
+    procedure Change; override;
+    procedure ValidarDado;virtual;
+    procedure DoEnter;override;
+    procedure DoExit;override;
+    constructor Create(Awoner: TComponent);override;
+  published
+    { Published declarations }
+    property Requerido: boolean read FRequerido write FRequerido default false;
+    property TabSheet: TTabSheet read FTabSheet write FTabSheet;
+    property Rotulo: TLabelMC read FRotulo write FRotulo default nil;
+    property ChecagemTipo: TChecagemType read FChecagemType write FChecagemType default ctDefault;
+    property Legenda: String read FLabel write FLabel;
+  end;
+
+procedure Register;
+
+implementation
+
+procedure Register;
+begin
+  RegisterComponents('MC Visuais', [TEditMC]);
+end;
+
+{ TEditMC }
+
+procedure TEditMC.Change;
+begin
+  inherited;
+  if ReadOnly and not TabStop then exit;
+  Color := clWindow;
+end;
+
+constructor TEditMC.Create(Awoner: TComponent);
+begin
+  inherited Create(Awoner);
+  Tag := 2;
+  MCAPI := TMCAPI.Create(Self);
+end;
+
+procedure TEditMC.DoEnter;
+begin
+  inherited;
+  if Rotulo <> nil then
+    FRotulo.Font.Color := clBlue;
+end;
+
+procedure TEditMC.DoExit;
+var
+  Texto: string;
+begin
+  if Rotulo <> nil then
+    FRotulo.Font.Color := clBlack;
+  if (FChecagemType <> ctDefault) then begin
+    Texto := StringReplace(Text, '.', '', [rfReplaceAll]);
+    Texto := StringReplace(Texto, '-', '', [rfReplaceAll]);
+    Texto := StringReplace(Texto, '/', '', [rfReplaceAll]);
+    if (MCAPI.ValidarCpf(Texto)) and ((ChecagemTipo = ctCPF) or (ChecagemTipo = ctCPFCNPJ)) then begin
+      Texto := Format('%s.%s.%s-%s', [copy(Texto, 1, 3), copy(Texto, 4, 3), copy(Texto, 7, 3), copy(Texto, 10, 2)]);
+    end
+    else if MCAPI.ValidarCnpj(Texto) and ((ChecagemTipo = ctCNPJ) or (ChecagemTipo = ctCPFCNPJ)) then begin
+      Texto := Format('%s.%s.%s/%s-%s', [copy(Texto, 1, 2), copy(Texto, 3, 3), copy(Texto, 6, 3), copy(Texto, 9, 4), copy(Texto, 13, 2)]);
+    end;
+    Text := Texto;
+  end;
+  inherited;
+end;
+
+procedure TEditMC.ValidarDado;
+begin
+  case FChecagemType of
+    ctDefault: begin
+      if (Text = '') and Requerido then
+      begin
+        Application.MessageBox(PCHAR('O Campo ''' + FLabel + ''' é de preenchimento obrigatório.'), PCHAR(Application.Title), MB_OK + MB_ICONEXCLAMATION);
+        Color := clSkyBlue;
+        if TabSheet <> nil then
+          TabSheet.Show;
+        SetFocus;
+        abort;
+      end;
+    end;
+    ctCPF: begin
+      if not MCAPI.ValidarCpf(Text) then begin
+        Application.MessageBox(PCHAR('O CPF informado é inválido.'), PCHAR(Application.Title), MB_OK + MB_ICONEXCLAMATION);
+        Color := clSkyBlue;
+        if TabSheet <> nil then
+          TabSheet.Show;
+        SetFocus;
+        abort;
+      end;
+    end;
+    ctCNPJ: begin
+      if not MCAPI.ValidarCnpj(Text) then begin
+        Application.MessageBox(PCHAR('O CNPJ informado é inválido.'), PCHAR(Application.Title), MB_OK + MB_ICONEXCLAMATION);
+        Color := clSkyBlue;
+        if TabSheet <> nil then
+          TabSheet.Show;
+        SetFocus;
+        abort;
+      end;
+    end;
+    ctCPFCNPJ: begin
+      if not MCAPI.ValidarCpf(Text) and not MCAPI.ValidarCnpj(Text) then begin
+        Application.MessageBox(PCHAR('O CPF ou CNPJ informado é inválido.'), PCHAR(Application.Title), MB_OK + MB_ICONEXCLAMATION);
+        Color := clSkyBlue;
+        if TabSheet <> nil then
+          TabSheet.Show;
+        SetFocus;
+        abort;
+      end;
+    end;
+  end;
+end;
+
+end.

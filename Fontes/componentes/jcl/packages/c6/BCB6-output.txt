@@ -1,0 +1,17 @@
+MAKE Version 5.2  Copyright (c) 1987, 1998 Inprise Corp.
+	F:\PROGRA~1\Borland\CBUILD~1\bin\..\BIN\ilink32 @MAKE0000.@@@
+Turbo Incremental Link 5.60 Copyright (c) 1997-2002 Borland
+Error: Unresolved external 'inflateEnd' referenced from I:\QUELLEN\JEDI\JCL\LIB\C6\OBJ\JCLZLIB.OBJ
+Error: Unresolved external 'inflate' referenced from I:\QUELLEN\JEDI\JCL\LIB\C6\OBJ\JCLZLIB.OBJ
+Error: Unresolved external 'deflate' referenced from I:\QUELLEN\JEDI\JCL\LIB\C6\OBJ\JCLZLIB.OBJ
+Error: Unresolved external 'deflateEnd' referenced from I:\QUELLEN\JEDI\JCL\LIB\C6\OBJ\JCLZLIB.OBJ
+Error: Unresolved external 'crc32' referenced from I:\QUELLEN\JEDI\JCL\LIB\C6\OBJ\JCLZLIB.OBJ
+Error: Unresolved external 'inflateInit2_' referenced from I:\QUELLEN\JEDI\JCL\LIB\C6\OBJ\ZLIBH.OBJ
+Error: Unresolved external 'inflateReset' referenced from I:\QUELLEN\JEDI\JCL\LIB\C6\OBJ\JCLZLIB.OBJ
+Error: Unresolved external 'deflateInit2_' referenced from I:\QUELLEN\JEDI\JCL\LIB\C6\OBJ\ZLIBH.OBJ
+Error: Unresolved external 'deflateReset' referenced from I:\QUELLEN\JEDI\JCL\LIB\C6\OBJ\JCLZLIB.OBJ
+Error: Unresolved external 'deflateInit_' referenced from I:\QUELLEN\JEDI\JCL\LIB\C6\OBJ\ZLIBH.OBJ
+Error: Unresolved external 'inflateInit_' referenced from I:\QUELLEN\JEDI\JCL\LIB\C6\OBJ\ZLIBH.OBJ
+Error: Unresolved external 'inflateBackInit_' referenced from I:\QUELLEN\JEDI\JCL\LIB\C6\OBJ\ZLIBH.OBJ
+
+** error 2 ** deleting CJcl60.bpl

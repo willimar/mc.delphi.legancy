@@ -1,0 +1,56 @@
+package Adicionais;
+
+{$R *.res}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DESCRIPTION 'MC Adicionais'}
+{$IMPLICITBUILD OFF}
+
+requires
+  rtl,
+  vcl,
+  dbrtl,
+  dsnap,
+  vcldb,
+  ZComponent,
+  vclactnband,
+  vclx,
+  designide,
+  ZParseSql,
+  ZCore,
+  ZDbc,
+  ZPlain,
+  Visuais,
+  visualclx,
+  Kernel,
+  DBVisuais,
+  bdertl;
+
+contains
+  uPesquisaLookup in 'uPesquisaLookup.pas' {_frmLookup},
+  LookupMC in 'LookupMC.pas',
+  FileStreamMC in 'FileStreamMC.pas',
+  DuploGrid in 'DuploGrid.pas',
+  FormTestes in 'FormTestes.pas' {Form1},
+  NavigatorMC in 'NavigatorMC.pas';
+
+end.
