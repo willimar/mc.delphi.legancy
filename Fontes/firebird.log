@@ -4,3 +4,9 @@ WILLIMAR-PC (Client)	Fri Apr 04 23:57:36 2014
 WILLIMAR-PC (Client)	Fri Apr 04 23:57:39 2014
 	INET/inet_error: connect errno = 10061
 
+WILLIMAR-NB (Client)	Thu Sep 13 21:34:38 2018
+	INET/inet_error: connect errno = 10061
+
+WILLIMAR-NB (Client)	Thu Sep 13 21:34:41 2018
+	INET/inet_error: connect errno = 10061
+

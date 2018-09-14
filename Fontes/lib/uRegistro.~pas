@@ -186,7 +186,7 @@ begin
   else if vVERSAO <> DM.SisControl.Versao then
     Result := false;
 
-  Result := true;
+  //Result := true;
 end;
 
 function TipoRegistro(Chave: String): TRegistro;
